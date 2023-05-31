@@ -1,5 +1,7 @@
 import fs from'fs/promises'
 import path from 'path'
+import url from 'url'
+
 
 
 const findDeepestDirectory = async (dirPath, depth = 0) => {
@@ -16,7 +18,6 @@ const findDeepestDirectory = async (dirPath, depth = 0) => {
                         maxDepth = subDepth.maxDepth;
                         maxDepthDir = subDepth.maxDepthDir
                     }
-
             }
         }
     } catch (error) {
@@ -29,8 +30,28 @@ const findDeepestDirectory = async (dirPath, depth = 0) => {
     };
 }
 
-const startDir = '/Users/armankhanikiryan/Desktop/Epam Homeorks/node_modules'
+
+const findNodeModulesDirectory = async () => {
+    let currentPath = url.fileURLToPath(import.meta.url);
+    while (currentPath !== '/') {
+        const nodeModulesPath = path.join(currentPath, 'node_modules');
+        try {
+            await fs.access(nodeModulesPath);
+            return nodeModulesPath;
+        } catch (error) {
+            currentPath = path.dirname(currentPath);
+        }
+    }
+    return null;
+}
+
+let startDir = await findNodeModulesDirectory();
+
+
 const createFile = async (fileName) => {
+    if(!startDir){
+        startDir = process.cwd()
+    }
     const res = await findDeepestDirectory(startDir)
     const dir = res.maxDepthDir
     try{
