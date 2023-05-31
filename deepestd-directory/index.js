@@ -16,6 +16,7 @@ const findDeepestDirectory = async (dirPath, depth = 0) => {
                         maxDepth = subDepth.maxDepth;
                         maxDepthDir = subDepth.maxDepthDir
                     }
+
             }
         }
     } catch (error) {
