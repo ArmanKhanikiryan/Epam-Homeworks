@@ -166,17 +166,10 @@ const handleInput = (input) => {
                 filesArr.sort()
                 dirArr.sort()
                 const res = dirArr.concat(filesArr)
-                const indexTitle = 'Index'.toString().padEnd(15);
-                const nameTitle = 'Name'.padEnd(20);
-                const descTitle = 'Type'.toString().padEnd(20)
-                console.log('')
-                console.log(`${indexTitle}${nameTitle}${descTitle}`);
-                res.forEach((name, index) => {
-                    const paddedIndex = index.toString().padEnd(15);
-                    const paddedName = name[0].padEnd(20);
-                    const paddedDescription = name[1].toString().padEnd(20)
-                    console.log(`${paddedIndex}${paddedName}${paddedDescription}`);
+                const tableData = res.map((row, index) => {
+                    return { 'Name': row[0], 'Type': row[1]};
                 });
+                console.table(tableData)
             }
             getFiles().then()
             break
@@ -200,9 +193,3 @@ process.on('SIGINT', () => {
     process.exit(0);
 });
 console.log('Type a command or use ".exit" to quit.');
-
-
-
-
-
-
