@@ -31,7 +31,7 @@ const findDeepestDirectory = async (dirPath, depth = 0) => {
 }
 const findNodeModulesDirectory = async () => {
     let currentPath = path.resolve(process.cwd());
-    while (currentPath !== '/') {
+    while (currentPath !== path.parse(currentPath).root) {
         const nodeModulesPath = path.join(currentPath, 'node_modules');
         try {
             await fs.access(nodeModulesPath);
@@ -40,10 +40,11 @@ const findNodeModulesDirectory = async () => {
             currentPath = path.dirname(currentPath);
         }
     }
+
     return null;
 };
 let startDir = await findNodeModulesDirectory();
-
+console.log(startDir)
 
 const createFile = async (fileName) => {
     if(!startDir){
