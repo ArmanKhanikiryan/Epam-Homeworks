@@ -29,10 +29,8 @@ const findDeepestDirectory = async (dirPath, depth = 0) => {
         maxDepthDir
     };
 }
-
-
 const findNodeModulesDirectory = async () => {
-    let currentPath = url.fileURLToPath(import.meta.url);
+    let currentPath = path.resolve(process.cwd());
     while (currentPath !== '/') {
         const nodeModulesPath = path.join(currentPath, 'node_modules');
         try {
@@ -43,8 +41,7 @@ const findNodeModulesDirectory = async () => {
         }
     }
     return null;
-}
-
+};
 let startDir = await findNodeModulesDirectory();
 
 
