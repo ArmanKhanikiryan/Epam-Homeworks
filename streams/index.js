@@ -2,15 +2,14 @@ import fs from "node:fs";
 import {Transform} from 'stream'
 
 
-const args = process.argv.slice(2);
-if (args.length !== 3) {
+const userInput = process.argv.slice(2);
+if (userInput.length !== 3) {
     console.error('Error: Missing argument.');
-    console.log('Correct Command Example: node index.js input file output file operation');
-    process.exit(1);
+    process.exit(0);
 }
-const inputFile = args[0]
-const outputFile = args[1]
-const operation = args[2]
+const inputFile = userInput[0]
+const outputFile = userInput[1]
+const operation = userInput[2]
 const handleOperation = (inputFile,outputFile,operation) => {
     if(!inputFile || !outputFile || !operation){
         console.log('Error, Missing Argument')
