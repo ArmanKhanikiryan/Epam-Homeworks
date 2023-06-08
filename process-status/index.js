@@ -12,7 +12,7 @@ class Statistics {
         this.success = false;
         this.commandSuccess = false;
         this.error = null;
-        const workingDir = path.dirname(process.argv[1]);
+        const workingDir = path.dirname(process.cwd());
         this.logDirectory = path.join(workingDir, 'logs');
     }
 
@@ -85,3 +85,6 @@ class Statistics {
 }
 const sampleStatistics = new Statistics( ['-l'], 'ls', 5000);
 sampleStatistics.commandFunc().then();
+
+
+
