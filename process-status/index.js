@@ -51,6 +51,7 @@ class Statistics {
                     });
                     process.on('close', (code) => {
                         console.log(`Closed ::: ${code}`);
+                        resolve();
                     });
                 }),
                 new Promise((resolve) => {
