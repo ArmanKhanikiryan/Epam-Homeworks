@@ -55,13 +55,11 @@ if (cluster.isMaster) {
             const info = await new Promise((resolve, reject) => {
                 worker.on('message', message => {
                     if (message === 'ready') {
-                        if (i in filesForWorkers) {
                             const pathsForWorker = filesForWorkers[i].filter(elem => elem);
                             worker.send({
                                 csvFileArray: pathsForWorker,
                                 jsonFile: 'converted/mock.json'
                             });
-                        }
                     }else {
                         resolve(message.count)
                     }
@@ -97,7 +95,7 @@ if (cluster.isMaster) {
         const { csvFileArray, jsonFile } = message;
         let count = 0;
         const singleParser = (index) => {
-            fs.createReadStream(csvFileArray[0])
+            fs.createReadStream(csvFileArray[index])
                 .pipe(csv())
                 .on("data", () => {
                     count++;
