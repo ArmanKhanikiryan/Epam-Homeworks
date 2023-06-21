@@ -1,7 +1,7 @@
-import * as http from "http";
-import * as path from "path";
-import * as fsPromise from "fs/promises";
-import * as url from "url";
+import http from "http";
+import path from "path";
+import fsPromise from "fs/promises";
+import url from "url";
 import { UrlWithParsedQuery } from "url";
 import { IncomingMessage, ServerResponse } from "http";
 
