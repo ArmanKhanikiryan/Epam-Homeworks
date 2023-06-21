@@ -1,17 +1,17 @@
-import url from "url";
-import path from "path";
-import fsPromise from "fs/promises";
-import http from "http";
-import parserFunction from "../clusters/cluster.js";
+import * as http from "http";
+import * as path from "path";
+import * as fsPromise from "fs/promises";
+import * as url from "url";
+import { UrlWithParsedQuery } from "url";
+import { IncomingMessage, ServerResponse } from "http";
 
-const server = http.createServer(async (req, res) => {
+const server = http.createServer(async (req:IncomingMessage, res:ServerResponse):Promise<void> => {
   const pathToConvert = '../clusters/converted';
   if (req.method === 'GET' && req.url === '/files'){
-    const files = (await fsPromise.readdir(pathToConvert))
-      .filter(file => path.extname(file) === '.json');
+    const files:string[] = (await fsPromise.readdir(pathToConvert))
+      .filter((file) => path.extname(file) === '.json');
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: 'Get Request Succeeded', data: files }))
-
   }else if (req.method === 'POST' && req.url === '/exports') {
     // let requestBody = ''
     // req.on('data', (chunk) => {
@@ -33,16 +33,16 @@ const server = http.createServer(async (req, res) => {
     //     })()
     // });
   }else if(req.method === 'GET' && req.url.startsWith('/files/')) {
-    const reqUrl = url.parse(req.url, true);
-    const filename = reqUrl.pathname.substring('/files/:'.length);
-    const ext = path.extname(filename)
+    const reqUrl:UrlWithParsedQuery = url.parse(req.url, true);
+    const filename:string = reqUrl.pathname.substring('/files/:'.length);
+    const ext:string = path.extname(filename)
     if (ext !== '.json'){
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Wrong File Type' }))
     }
-    const fullPath = path.join(pathToConvert, filename)
+    const fullPath:string = path.join(pathToConvert, filename)
     try {
-      const result = await fsPromise.readFile(fullPath)
+      const result:Buffer = await fsPromise.readFile(fullPath)
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Get Request Succeeded', data: result }))
     }catch (e) {
@@ -51,14 +51,14 @@ const server = http.createServer(async (req, res) => {
     }
 
   }else if (req.method === 'DELETE' && req.url.startsWith('/files/')){
-    const parsedUrl = url.parse(req.url, true);
-    const filename = parsedUrl.pathname.substring('/files/:'.length);
-    const ext = path.extname(filename)
+    const parsedUrl:UrlWithParsedQuery = url.parse(req.url, true);
+    const filename:string = parsedUrl.pathname.substring('/files/:'.length);
+    const ext:string = path.extname(filename)
     if (ext !== '.json'){
       res.writeHead(400, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Wrong File Type' }))
     }
-    const fullPath = path.join('./', filename)
+    const fullPath:string = path.join('./', filename)
     console.log(fullPath)
     try{
       await fsPromise.rm(fullPath)
@@ -74,3 +74,11 @@ const server = http.createServer(async (req, res) => {
   }
 })
 server.listen(9999)
+
+
+
+
+
+
+
+
