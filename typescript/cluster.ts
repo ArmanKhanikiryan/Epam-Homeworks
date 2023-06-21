@@ -2,7 +2,7 @@ import cluster from 'cluster';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
-import { promises as fsPromise } from 'fs';
+import fsPromise from 'fs/promises';
 import csv from 'csv-parser';
 
 interface IFilesPathObject {
