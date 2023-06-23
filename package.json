@@ -1,23 +1,19 @@
 {
-  "name": "epam-homeorks",
+  "name": "testing-node",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "http/http.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "@types/node": "^20.3.1",
-    "axios": "^1.4.0",
-    "cloudinary": "^1.37.0",
-    "csv-parser": "^3.0.0",
-    "grunt": "^1.6.1",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.4",
-    "prettier": "^2.8.8"
+    "csv-parser": "^3.0.0"
   },
-  "type": "module"
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }
