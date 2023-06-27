@@ -15,7 +15,6 @@ async function parserFunction(dirPath) {
             process.exit(1);
         }
 
-
         try {
             await fsPromise.access(csvDirectory);
         } catch (err) {
