@@ -3,9 +3,9 @@ import { promises as fsPromises } from 'fs';
 import csv from 'csv-parser';
 import path from 'path';
 
-async function parserFunction(dirPath) {
+async function parserFunction(newDirPath) {
     const pathToConvert = './converted';
-    const csvDirectory = path.resolve(dirPath);
+    const csvDirectory = path.resolve(newDirPath);
 
     if (!csvDirectory) {
         console.error('Invalid Directory Input');

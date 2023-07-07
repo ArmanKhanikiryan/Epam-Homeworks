@@ -5,11 +5,11 @@ import fs from "fs";
 import fsPromise from 'fs/promises'
 import csv from "csv-parser";
 
-async function parserFunction(dirPath) {
+async function parserFunction(newDirPath) {
     if (cluster.isMaster) {
         const pathToConvert = './converted';
         // const csvDirectory = process.argv[2];
-        const csvDirectory = dirPath
+        const csvDirectory = newDirPath
         if (!csvDirectory) {
             console.error('Invalid Directory Input');
             process.exit(1);

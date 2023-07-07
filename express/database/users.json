@@ -1,0 +1,20 @@
+[
+  {
+    "age": 22,
+    "name": "Arman",
+    "gender": "Male",
+    "id": "c23bf09d-ff83-4b44-b62b-59cd20520ef0",
+    "status": true,
+    "creationData": 1688767644207,
+    "modificationData": 1688767644207
+  },
+  {
+    "age": 53,
+    "name": "Arthur",
+    "gender": "Male",
+    "id": "f7a1919e-a459-43a6-9bea-89a56709950d",
+    "status": false,
+    "creationData": 1688767658728,
+    "modificationData": 1688767658728
+  }
+]
