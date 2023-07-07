@@ -1,14 +1,16 @@
-import { IRequestUser, IUser } from "../utils/types";
+import { IController, IRequestUser, IUser } from "../utils/types";
 import handleCreateUser from "../models/user";
 import fs from "fs/promises"
 
 
-export class UserController {
+export class UserController implements IController{
   private users: IUser[]
   constructor() {
     this.users = []
     this.retrieveUsers()
+      .then()
     this.storeUsers()
+      .then()
   }
    getUsers(): IUser[] {
     return this.users
@@ -17,13 +19,14 @@ export class UserController {
     const newUser = handleCreateUser(data)
     this.users.push(newUser)
     this.storeUsers()
+      .then()
     return newUser
   }
 
   deleteUser(id: string): void {
-    const filtered = this.users.filter(elem => elem .id !== id)
-    this.users = filtered
+    this.users = this.users.filter(elem => elem .id !== id)
     this.storeUsers()
+      .then()
   }
 
   updateUser(id: string, data: IRequestUser): IUser | null {
@@ -38,6 +41,7 @@ export class UserController {
     }
     this.users[elementIndex] = updated
     this.storeUsers()
+      .then()
     return updated
   }
   activvationUser(id: string) : IUser | null {
@@ -51,6 +55,7 @@ export class UserController {
     }
     this.users[elementIndex] = activated
     this.storeUsers()
+      .then()
     return activated
   }
   private async retrieveUsers(): Promise<void> {
