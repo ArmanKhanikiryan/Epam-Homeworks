@@ -1,6 +1,7 @@
 import { IController, IRequestUser, IUser } from "../utils/types";
 import handleCreateUser from "../models/user";
 import fs from "fs/promises"
+import { dayHandler } from "../utils/functions";
 
 
 export class UserController implements IController{
@@ -37,7 +38,7 @@ export class UserController implements IController{
     const updated:IUser = {
       ...this.users[elementIndex],
       ...data,
-      modificationData: Date.now()
+      modificationData: dayHandler()
     }
     this.users[elementIndex] = updated
     this.storeUsers()

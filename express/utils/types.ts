@@ -6,8 +6,8 @@ export interface IUser {
   age: number,
   gender: string,
   status: boolean,
-  creationData: number,
-  modificationData: number
+  creationData: string,
+  modificationData: string
 }
 
 export interface IRequestUser {

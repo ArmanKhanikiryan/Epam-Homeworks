@@ -1,4 +1,4 @@
-import { create_UUID } from "../utils/functions";
+import { create_UUID, dayHandler } from "../utils/functions";
 import { IRequestUser, IUser } from "../utils/types";
 
 export default function handleCreateUser(data: IRequestUser):IUser {
@@ -6,7 +6,7 @@ export default function handleCreateUser(data: IRequestUser):IUser {
     ...data,
     id: create_UUID(),
     status: false,
-    creationData: Date.now(),
-    modificationData: Date.now()
+    creationData: dayHandler(),
+    modificationData: dayHandler()
   }
 }
