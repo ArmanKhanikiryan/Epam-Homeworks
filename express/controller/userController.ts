@@ -1,77 +1,75 @@
 import { IController, IRequestUser, IUser } from "../utils/types";
-import handleCreateUser from "../models/user";
-import fs from "fs/promises"
-import { dayHandler } from "../utils/functions";
-
+import { Request, Response } from 'express';
+import { UserServices } from "../services/userServices";
+import CustomError from "../error/error";
 
 export class UserController implements IController{
-  private users: IUser[]
+  private userService: UserServices
   constructor() {
-    this.users = []
-    this.retrieveUsers()
-      .then()
-    this.storeUsers()
-      .then()
+    this.userService = new UserServices()
   }
-   getUsers(): IUser[] {
-    return this.users
-  }
-  public createUser(data: IRequestUser): IUser {
-    const newUser = handleCreateUser(data)
-    this.users.push(newUser)
-    this.storeUsers()
-      .then()
-    return newUser
+  public async createUser(req: Request, res: Response): Promise<void> {
+    try{
+      const { name, age, gender }: IRequestUser = req.body;
+      const data = await this.userService.createUser({ name, age, gender })
+      res.status(201).json({ data, message: "User Created" });
+    }catch (e) {
+      if (e instanceof CustomError){
+        res.status(e.code).json({ errorMessage: e.message})
+      }
+      res.status(500).json({ errorMessage: 'Internal Server Error' });
+    }
   }
 
-  deleteUser(id: string): void {
-    this.users = this.users.filter(elem => elem .id !== id)
-    this.storeUsers()
-      .then()
+  public async getUsers(req: Request, res: Response):Promise<void> {
+    try {
+      const result: IUser[] = await this.userService.getUsers()
+      res.json(result)
+    }catch (e) {
+      if (e instanceof CustomError){
+        res.status(e.code).json({ errorMessage: e.message})
+      }
+      res.status(500).json({ errorMessage: 'Internal Server Error' });
+    }
   }
 
-  updateUser(id: string, data: IRequestUser): IUser | null {
-    const elementIndex = this.users.findIndex(elem => elem.id === id)
-    if (elementIndex === -1) {
-      return null
-    }
-    const updated:IUser = {
-      ...this.users[elementIndex],
-      ...data,
-      modificationData: dayHandler()
-    }
-    this.users[elementIndex] = updated
-    this.storeUsers()
-      .then()
-    return updated
-  }
-  activvationUser(id: string) : IUser | null {
-    const elementIndex = this.users.findIndex(elem => elem.id === id)
-    if (elementIndex === -1) {
-      return null
-    }
-    const activated: IUser = {
-      ...this.users[elementIndex],
-      status: true
-    }
-    this.users[elementIndex] = activated
-    this.storeUsers()
-      .then()
-    return activated
-  }
-  private async retrieveUsers(): Promise<void> {
+  public async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      const data = await fs.readFile('express/database/users.json', 'utf8')
-      this.users = data ? JSON.parse(data) : [];
+      const id = req.params.id;
+      await this.userService.deleteUser(id)
+      res.status(205).json({ message: "User Deleted" });
     }catch (e) {
-      console.log('Error in reading DataBase', e);
+      if (e instanceof CustomError){
+        res.status(e.code).json({ errorMessage: e.message})
+      }
+      res.status(500).json({ errorMessage: 'Internal Server Error' });
     }
   }
-  private async storeUsers(): Promise<void> {
+
+  public async updateUser(req: Request, res: Response):Promise<void> {
     try {
-      await fs.writeFile('express/database/users.json',JSON.stringify(this.users, null, 2))
-    }catch (e) {
-      console.log('Error in writning DataBase', e);
+      const id = req.params.id
+      const { name, age, gender }: IRequestUser = req.body;
+      const data = await this.userService.updateUser(id,{ name, age, gender })
+      res.json({ data, message: 'User Updated' });
+    }catch(e){
+      if (e instanceof CustomError){
+        res.status(e.code).json({ errorMessage: e.message})
+      }
+      res.status(500).json({ errorMessage: 'Internal Server Error' });
+    }
+  }
+
+  public async activationUser(req: Request, res: Response):Promise<void>{
+    try {
+      const id = req.params.id
+      const data = await this.userService.activateUser(id)
+      res.json({ data, message: 'User Activated' });
+    }catch(e){
+      if (e instanceof CustomError){
+        res.status(e.code).json({ errorMessage: e.message})
+      }
+      res.status(500).json({ errorMessage: 'Internal Server Error' });
     }
   }
 }

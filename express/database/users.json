@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "name": "Gago",
+    "age": 21,
+    "gender": "male",
+    "id": "507356d2-6e33-49a6-8297-0f7016e35df3",
+    "status": false,
+    "creationData": "2023/07/13 02:53:57",
+    "modificationData": "2023/07/13 02:53:57"
+  },
+  {
+    "name": "Emil",
+    "age": 21,
+    "gender": "male",
+    "id": "5442f246-285a-40e3-8d5d-e2f6acca7cc7",
+    "status": false,
+    "creationData": "2023/07/13 02:54:03",
+    "modificationData": "2023/07/13 02:54:03"
+  },
+  {
+    "name": "George",
+    "age": 54,
+    "gender": "male",
+    "id": "85fbe2a6-2e11-4ffb-b23e-d82c2ef5f3af",
+    "status": false,
+    "creationData": "2023/07/13 02:54:16",
+    "modificationData": "2023/07/13 02:59:03"
+  },
+  {
+    "name": "Elen",
+    "age": 22,
+    "gender": "female",
+    "id": "5d731a4e-0763-484b-a904-baf3bed0b250",
+    "status": true,
+    "creationData": "2023/07/13 02:54:24",
+    "modificationData": "2023/07/13 02:54:24"
+  }
+]

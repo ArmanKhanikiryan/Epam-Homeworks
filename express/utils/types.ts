@@ -1,4 +1,4 @@
-
+import { NextFunction, Request, Response } from "express";
 
 export interface IUser {
   id: string,
@@ -17,9 +17,22 @@ export interface IRequestUser {
 }
 
 export interface IController {
-  getUsers(): IUser[],
-  createUser(data: IRequestUser): IUser,
-  deleteUser(id: string): void,
-  updateUser(id: string, data: IRequestUser): IUser | null,
-  activvationUser(id: string) : IUser | null,
+  getUsers(req: Request, res: Response): Promise<void>
+  deleteUser(req: Request, res: Response):Promise<void>
+  createUser(req: Request, res: Response): Promise<void>
+  updateUser(req: Request, res: Response): Promise<void>
+  activationUser(req: Request, res: Response) : Promise<void>
+}
+
+export interface IService {
+  getUsers(): Promise<IUser[]>
+  createUser(data: IRequestUser): Promise<IUser>
+  deleteUser(id: string):Promise<void>
+  updateUser(id: string, data: IRequestUser): Promise<IUser>
+  activateUser(id: string):Promise<IUser>
+}
+
+export interface IMiddleware{
+  validationMiddleware(req: Request, res: Response, next: NextFunction): void
+  apiMiddleware(req: Request, res: Response, next: NextFunction): void
 }
