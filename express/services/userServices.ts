@@ -13,7 +13,7 @@ export class UserServices implements IService{
       return data ? JSON.parse(data) : []
     }catch (e) {
       console.log('Error in database retrieving');
-      throw e;
+      throw new CustomError('Retrieving Error', 501);
     }
   }
 
@@ -22,7 +22,7 @@ export class UserServices implements IService{
       await fs.writeFile(this.userFilePath, JSON.stringify(users, null, 2))
     }catch (e) {
       console.log('Error in storing database');
-      throw e;
+      throw new CustomError('Storing Error', 502);
     }
   }
 
@@ -31,7 +31,7 @@ export class UserServices implements IService{
       return await this.retrieveUsers();
     }catch (e) {
       console.log('Error in getting users');
-      throw e;
+      throw new CustomError('Error Getting Users', 503);
     }
   }
 
@@ -44,7 +44,7 @@ export class UserServices implements IService{
       return newUser
     }catch (e) {
       console.log('Error in creating user');
-      throw e;
+      throw new CustomError('Error In User Creation ', 504);
     }
   }
 
@@ -59,7 +59,7 @@ export class UserServices implements IService{
       await this.storeUsers(users);
     } catch (e) {
       console.log('Error in deleting users', e);
-      throw new CustomError('Internal Server Error', 500);
+      throw new CustomError('Error In Deleting User', 505);
     }
   }
 
@@ -68,7 +68,7 @@ export class UserServices implements IService{
       let users = await this.retrieveUsers();
       const index = users.findIndex(user => user.id === id);
       if (index === -1) {
-        throw new Error('User Not Found');
+        throw new CustomError('User Not Found', 404);
       }
       const updated: IUser = {
         ...users[index],
@@ -80,7 +80,7 @@ export class UserServices implements IService{
       return updated;
     } catch (e) {
       console.log('Error in reading/writing Database', e);
-      throw e;
+      throw new CustomError('Error In Updating User', 506);
     }
   }
 
@@ -101,8 +101,7 @@ export class UserServices implements IService{
       return activated
     }catch(e){
       console.log('Error in reading/writing Database', e);
-      throw e;
+      throw new CustomError('Error In Activation User', 507);
     }
   }
-
 }
